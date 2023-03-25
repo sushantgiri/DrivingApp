@@ -15,7 +15,15 @@ import {
   Animated
 } from 'react-native';
 import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {RootStackParamList} from './src/screens/RootStackParamList';
+import Home from './src/screens/Home';
+import Splash from './src/screens/Splash';
 const drivingApp =  require('./src/assets/driving.png')
+
+const Stack = createStackNavigator();
+
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -33,18 +41,30 @@ function App(): JSX.Element {
   }, [fadeAnim]);
 
   return (
-    <View style={styles.container}>
-    <Animated.View
-    style={{
-      alignItems:'center',
-      opacity: fadeAnim, // Bind opacity to animated value
-    }}>
-      <Image source={drivingApp}/>
-      <Text style={styles.label}>
-          Driving App
-      </Text>
-    </Animated.View>
-  </View>
+    <NavigationContainer>
+      <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+        initialRouteName='Splash'>
+      <Stack.Screen name='Home' component={Home} />
+      <Stack.Screen name='Splash' component={Splash} />
+      
+        
+      </Stack.Navigator>
+    </NavigationContainer>
+  //   <View style={styles.container}>
+  //   <Animated.View
+  //   style={{
+  //     alignItems:'center',
+  //     opacity: fadeAnim, // Bind opacity to animated value
+  //   }}>
+  //     <Image source={drivingApp}/>
+  //     <Text style={styles.label}>
+  //         Driving App
+  //     </Text>
+  //   </Animated.View>
+  // </View>
   );
 }
 
