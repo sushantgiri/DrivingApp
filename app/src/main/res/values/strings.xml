@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Driving App</string>
+    <string name="sign_up"><u>SignUp</u></string>
+    <string name="facebook_app_id">214268554165523</string>
+    <string name="fb_login_protocol_scheme">fb214268554165523</string>
+    <string name="web_client_id">419729297027-5bkd48v9k3n79arqff6nv6gd2j6vkdqu.apps.googleusercontent.com</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.driving_app;
+package com.driving_app.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,11 +6,11 @@ import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.driving_app.R;
 import com.driving_app.helpers.PreferenceHelper;
 
 public class SplashActivity extends AppCompatActivity {
@@ -35,16 +35,6 @@ public class SplashActivity extends AppCompatActivity {
     private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-    }
-
-    private void startMainActivity(){
-        Intent mainIntent = new Intent(this, MainActivity.class);
-        startActivity(mainIntent);
-    }
-
-    private void startNewActivity(){
-        Intent mainIntent = new Intent(this, MainActivity.class);
-        startActivity(mainIntent);
     }
 
     private void launchActivity(){
