@@ -11,10 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.driving_app.R;
 import com.driving_app.model.Instructor;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class InstructorAdapter extends FirestoreRecyclerAdapter<Instructor, InstructorAdapter.InstructorViewHolder>
@@ -51,6 +54,13 @@ public class InstructorAdapter extends FirestoreRecyclerAdapter<Instructor, Inst
                 instructorAdapterListener.onAppointmentClicked(position, model);
             }
         });
+        if(model.getProfileUrl() != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(model.getProfileUrl());
+            Glide.with(holder.itemView.getContext())
+                    .load(storageReference)
+                    .centerCrop()
+                    .into(holder.profileURL);
+        }
 
     }
 

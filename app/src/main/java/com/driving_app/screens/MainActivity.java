@@ -28,15 +28,19 @@ public class MainActivity extends AppCompatActivity  {
             homeFragment.setHomeListener(() -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
             selectedFragment= homeFragment;
 
-        }else if(id == R.id.nearBy){
-            selectedFragment = new NearbyFragment();
+        }
+//        else if(id == R.id.nearBy){
+//            selectedFragment = new NearbyFragment();
+//        }
 
-        }else if(id == R.id.calendar){
+        else if(id == R.id.calendar){
             selectedFragment = new AppointmentsFragment();
 
-        }else if(id == R.id.settingsIcon){
-            selectedFragment = new SettingsFragment();
         }
+
+//        else if(id == R.id.settingsIcon){
+//            selectedFragment = new SettingsFragment();
+//        }
         if (selectedFragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, selectedFragment).commit();
         }
