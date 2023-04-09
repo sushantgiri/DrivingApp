@@ -68,6 +68,9 @@
         <activity android:name=".screens.PasswordResetActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".screens.NewAppointmentActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

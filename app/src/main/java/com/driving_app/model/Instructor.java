@@ -1,6 +1,21 @@
 package com.driving_app.model;
 
-public class Instructor {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Instructor implements Parcelable {
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Instructor createFromParcel(Parcel in) {
+            return new Instructor(in);
+        }
+
+        public Instructor[] newArray(int size) {
+            return new Instructor[size];
+        }
+    };
 
     private String name;
     private String rating;
@@ -8,6 +23,18 @@ public class Instructor {
     private String profileUrl;
 
     private String instructorAvailability;
+
+    public Instructor(){
+
+    }
+
+    public Instructor(Parcel in){
+        this.name = in.readString();
+        this.rating = in.readString();
+        this.drivingExperienceDetails = in.readString();
+        this.profileUrl = in.readString();
+        this.instructorAvailability = in.readString();
+    }
 
     public String getInstructorAvailability() {
         return instructorAvailability;
@@ -47,5 +74,20 @@ public class Instructor {
 
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+
+        dest.writeString(this.name);
+        dest.writeString(this.rating);
+        dest.writeString(this.drivingExperienceDetails);
+        dest.writeString(this.profileUrl);
+        dest.writeString(this.instructorAvailability);
     }
 }

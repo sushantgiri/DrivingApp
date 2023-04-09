@@ -1,8 +1,10 @@
 package com.driving_app.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,31 +13,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.driving_app.R;
 import com.driving_app.model.Instructor;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 
-public class InstructorAdapter extends FirebaseRecyclerAdapter<Instructor, InstructorAdapter.InstructorViewHolder>
+public class InstructorAdapter extends FirestoreRecyclerAdapter<Instructor, InstructorAdapter.InstructorViewHolder>
 {
 
 
     /**
-     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirebaseRecyclerOptions} for configuration options.
+     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
+     * FirestoreRecyclerOptions} for configuration options.
      *
      * @param options
      */
-    public InstructorAdapter(@NonNull FirebaseRecyclerOptions<Instructor> options) {
+    public InstructorAdapter(@NonNull FirestoreRecyclerOptions<Instructor> options) {
         super(options);
     }
+
+    private InstructorAdapterListener instructorAdapterListener;
+
+    public void setInstructorAdapterListener(InstructorAdapterListener instructorAdapterListener){
+        this.instructorAdapterListener = instructorAdapterListener;
+    }
+
+
+
 
     @Override
     protected void onBindViewHolder(@NonNull InstructorViewHolder holder, int position, @NonNull Instructor model) {
         holder.instructorName.setText(model.getName());
         holder.instructorDescription.setText(model.getDrivingExperienceDetails());
         holder.instructorRating.setText(model.getRating());
-        holder.instructorAvailability.setText(model.getInstructorAvailability());
+        holder.instructorAvailable.setVisibility(model.getInstructorAvailability() != null ? View.VISIBLE: View.GONE);
+        holder.bookAppointmentButton.setOnClickListener(view -> {
+            if(instructorAdapterListener != null){
+                instructorAdapterListener.onAppointmentClicked(position, model);
+            }
+        });
+
     }
+
 
     @NonNull
     @Override
@@ -44,17 +62,28 @@ public class InstructorAdapter extends FirebaseRecyclerAdapter<Instructor, Instr
         return new InstructorViewHolder(rootView);
     }
 
-    public class InstructorViewHolder extends RecyclerView.ViewHolder{
+    public static class InstructorViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView profileURL;
-        private TextView instructorName, instructorDescription, instructorRating,instructorAvailability;
+        private final ImageView profileURL;
+        private final TextView instructorName;
+        private final TextView instructorDescription;
+        private final TextView instructorRating;
+        private final ImageView instructorAvailable;
+        private final Button bookAppointmentButton;
         public InstructorViewHolder(@NonNull View itemView) {
             super(itemView);
             profileURL = itemView.findViewById(R.id.profileURL);
             instructorName = itemView.findViewById(R.id.instructorName);
             instructorDescription = itemView.findViewById(R.id.instructorDescription);
             instructorRating =itemView.findViewById(R.id.rating);
-            instructorAvailability = itemView.findViewById(R.id.instructorAvailability);
+            instructorAvailable = itemView.findViewById(R.id.instructorAvailable);
+            bookAppointmentButton = itemView.findViewById(R.id.bookAppointment);
         }
     }
+
+    public interface InstructorAdapterListener{
+        void onAppointmentClicked(int position, Instructor instructor);
+    }
+
+
 }

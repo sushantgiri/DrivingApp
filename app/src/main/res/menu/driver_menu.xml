@@ -2,18 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/homeMenu"
         android:icon="@drawable/home"
         android:title="Home" />
 
     <item
+        android:id="@+id/nearBy"
         android:icon="@drawable/nearby"
         android:title="Nearby" />
 
     <item
+        android:id="@+id/calendar"
         android:icon="@drawable/calendar"
         android:title="Appointments" />
 
     <item
+        android:id="@+id/settingsIcon"
         android:icon="@drawable/settings"
         android:title="Settings" />
 </menu>
