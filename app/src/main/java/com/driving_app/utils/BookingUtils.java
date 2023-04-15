@@ -101,10 +101,11 @@ public final class BookingUtils {
                         }
 
                         MessagesModel messagesModel = new MessagesModel();
-                        messagesModel.setTitle("Appointment Booking!");
-                        messagesModel.setMessage("Your booking with instructor " +instructorName + "has been confirmed for "+ date + ". Please wait for the instructor to accept your booking.");
+                        messagesModel.setTitle("Appointment Booking Pending!");
+                        messagesModel.setMessage("Your booking with instructor " +instructorName + " has been confirmed for "+ date + ". Please wait for the instructor to accept your booking.");
                         messagesModel.setDeviceId(firebaseId);
                         messagesModel.setUserId(userId);
+                        messagesModel.setTimeStamp(date);
                         models.add(messagesModel);
                         docData.put("messages", models);
 

@@ -48,7 +48,7 @@ public class InstructorAdapter extends FirestoreRecyclerAdapter<Instructor, Inst
     @Override
     protected void onBindViewHolder(@NonNull InstructorViewHolder holder, int position, @NonNull Instructor model) {
         holder.instructorName.setText(model.getName());
-        holder.instructorDescription.setText(model.getDrivingExperienceDetails());
+        holder.instructorDescription.setText(model.getSummary());
         holder.instructorRating.setText(model.getRating());
         holder.instructorAvailable.setVisibility(model.getInstructorAvailability() != null ? View.VISIBLE: View.GONE);
         holder.bookAppointmentButton.setOnClickListener(view -> {

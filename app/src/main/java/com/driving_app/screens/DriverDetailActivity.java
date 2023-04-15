@@ -23,7 +23,7 @@ public class DriverDetailActivity extends AppCompatActivity implements View.OnCl
 
     private ImageView imageURL, backIcon;
     private TextView driverName;
-    private TextView driverDetails;
+    private TextView driverDetails,driverSummary;
     private ImageView callIcon, shareIcon;
     public static final String DRIVER_DETAIL_KEY = "DRIVER_DETAIL_KEY";
     private Instructor instructor;
@@ -34,6 +34,7 @@ public class DriverDetailActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_detail);
+        driverSummary = findViewById(R.id.driverSummary);
 
         ratingButton = findViewById(R.id.ratingBar);
         bookAppointmentButton = findViewById(R.id.bookAppointmentButton);
@@ -52,6 +53,7 @@ public class DriverDetailActivity extends AppCompatActivity implements View.OnCl
         driverDetails = findViewById(R.id.driverDetails);
         driverName.setText(instructor.getName());
         driverDetails.setText(instructor.getDrivingExperienceDetails());
+        driverSummary.setText(instructor.getSummary());
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(instructor.getProfileUrl());
         Glide.with(this)

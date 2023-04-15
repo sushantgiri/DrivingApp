@@ -22,6 +22,7 @@ public class Instructor implements Parcelable {
     private String name;
     private String rating;
     private String drivingExperienceDetails;
+    private String summary;
     private String profileUrl;
 
     private String instructorAvailability;
@@ -37,7 +38,10 @@ public class Instructor implements Parcelable {
         this.drivingExperienceDetails = in.readString();
         this.profileUrl = in.readString();
         this.instructorAvailability = in.readString();
-        this.appointmentList = in.readArrayList(Appointments.class.getClassLoader());
+        in.createTypedArrayList(Appointments.CREATOR);
+
+//        this.appointmentList = in.readArrayListx(null);
+        this.summary = in.readString();
     }
 
     public String getInstructorAvailability() {
@@ -88,6 +92,14 @@ public class Instructor implements Parcelable {
         this.profileUrl = profileUrl;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -101,7 +113,8 @@ public class Instructor implements Parcelable {
         dest.writeString(this.drivingExperienceDetails);
         dest.writeString(this.profileUrl);
         dest.writeString(this.instructorAvailability);
-        dest.writeList(this.appointmentList);
+        dest.writeTypedList(this.appointmentList);
+        dest.writeString(this.summary);
     }
 
 

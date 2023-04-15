@@ -9,6 +9,7 @@ public class MessagesModel implements Parcelable {
     private String title, message;
     private String deviceId;
     private String userId;
+    private String timeStamp;
 
     public MessagesModel(){
 
@@ -19,6 +20,7 @@ public class MessagesModel implements Parcelable {
         message = in.readString();
         deviceId = in.readString();
         userId = in.readString();
+        timeStamp = in.readString();
     }
 
     public static final Creator<MessagesModel> CREATOR = new Creator<MessagesModel>() {
@@ -65,6 +67,14 @@ public class MessagesModel implements Parcelable {
         this.deviceId = deviceId;
     }
 
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -76,5 +86,6 @@ public class MessagesModel implements Parcelable {
         dest.writeString(message);
         dest.writeString(deviceId);
         dest.writeString(userId);
+        dest.writeString(timeStamp);
     }
 }

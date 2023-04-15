@@ -145,7 +145,9 @@ public class NewAppointmentActivity extends AppCompatActivity implements View.On
                 progressDialog.cancel();
                 if(task.isSuccessful()){
                     MessageUtils.showMessage(this, "Appointment has been added");
-                    BookingUtils.initiateMessaging(instructor.getName(), FirebaseAuth.getInstance().getCurrentUser().getUid(), deviceToken,selectedDate, task1 -> {
+                    BookingUtils.initiateMessaging(instructor.getName(),
+                            FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                            deviceToken,selectedDate, task1 -> {
                           if(!task1.isSuccessful()){
                               MessageUtils.showMessage(NewAppointmentActivity.this, task1.getException().getMessage());
                           }else{

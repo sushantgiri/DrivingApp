@@ -13,7 +13,11 @@ import com.driving_app.fragments.AppointmentsFragment;
 import com.driving_app.fragments.HomeFragment;
 import com.driving_app.fragments.NearbyFragment;
 import com.driving_app.fragments.SettingsFragment;
+import com.driving_app.helpers.PreferenceHelper;
 import com.driving_app.model.Instructor;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity  {
@@ -23,15 +27,16 @@ public class MainActivity extends AppCompatActivity  {
     private static final int DRIVER_DETAIL_REQUEST_CODE = 9001;
     private static final int APPOINTMENT_ADDED_REQUEST_CODE = 9002;
     private Instructor selectedInstructor = null;
+    Fragment selectedFragment = null;
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
-        Fragment selectedFragment = null;
         int id = item.getItemId();
         if(id == R.id.homeMenu){
             HomeFragment homeFragment = new HomeFragment();
             homeFragment.setHomeListener(new HomeFragment.HomeListener() {
                 @Override
                 public void onLogoutClicked() {
+                    PreferenceHelper.getInstance(MainActivity.this).setIsLoggedIn(false);
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }
 
@@ -45,18 +50,18 @@ public class MainActivity extends AppCompatActivity  {
                     startNewAppointment(instructor);
                 }
             });
-            selectedFragment= homeFragment;
+            selectedFragment = homeFragment;
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, selectedFragment).commitAllowingStateLoss();
 
         }
 
         else if(id == R.id.calendar){
             selectedFragment = new AppointmentsFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, selectedFragment).commitAllowingStateLoss();
 
         }
 
-        if (selectedFragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, selectedFragment).commit();
-        }
+
 
         return false;
     };
@@ -74,10 +79,16 @@ public class MainActivity extends AppCompatActivity  {
             if(requestCode == DRIVER_DETAIL_REQUEST_CODE){
                 startNewAppointment(selectedInstructor);
             }else if(requestCode == APPOINTMENT_ADDED_REQUEST_CODE){
-                bottomNavigationView.setSelectedItemId(R.id.calendar);
+                if(bottomNavigationView != null){
+                    bottomNavigationView.setSelectedItemId(R.id.calendar);
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //No call for super(). Bug on API Level > 11.
     }
 
     private void startNewAppointment(Instructor instructor){
@@ -90,6 +101,12 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        PreferenceHelper.getInstance(this).setIsLoggedIn(true);
 
         frameLayout = findViewById(R.id.frameContainer);
 

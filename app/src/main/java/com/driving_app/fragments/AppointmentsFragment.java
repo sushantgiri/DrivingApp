@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AppointmentsFragment extends Fragment {
 
@@ -68,7 +69,9 @@ public class AppointmentsFragment extends Fragment {
                     if(task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         ArrayList<Object> messagesModels = (ArrayList<Object>) document.get("messages");
+
                         if(messagesModels != null ){
+                            Collections.reverse(messagesModels);
                             messagesAdapter.addAll(messagesModels);
                         }
                         noMessagesTV.setVisibility(messagesModels != null && messagesModels.size() > 0 ?

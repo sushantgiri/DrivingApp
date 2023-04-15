@@ -40,7 +40,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     @Override
     public void onBindViewHolder(@NonNull MessagesViewHolder holder, int position) {
         HashMap<String, String> hashMap = (HashMap<String, String>) messages.get(position);
-        MessagesModel messagesModel = (MessagesModel) messages.get(position);
+//        MessagesModel messagesModel = (MessagesModel) messages.get(position);
         holder.title.setText(hashMap.get("title"));
         holder.message.setText(hashMap.get("message"));
     }
