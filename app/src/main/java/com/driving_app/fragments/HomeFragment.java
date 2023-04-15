@@ -22,6 +22,7 @@ import com.driving_app.R;
 import com.driving_app.adapter.InstructorAdapter;
 import com.driving_app.helpers.WrapContentLinearLayoutManager;
 import com.driving_app.model.Instructor;
+import com.driving_app.screens.DriverDetailActivity;
 import com.driving_app.screens.InstructorActivity;
 import com.driving_app.screens.NewAppointmentActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -157,13 +158,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Inst
 
     @Override
     public void onAppointmentClicked(int position, Instructor instructor) {
-        Intent intent = new Intent(getContext(), NewAppointmentActivity.class);
-        intent.putExtra("Instructor", instructor);
-        intent.putExtra("position", position);
-        startActivity(intent);
+        if(homeListener != null){
+            homeListener.onBookingAppointmentClicked(position,instructor);
+        }
+    }
+
+    @Override
+    public void onItemClicked(int position, Instructor instructor) {
+       if(homeListener != null){
+           homeListener.onItemClicked(position, instructor);
+       }
     }
 
     public interface HomeListener {
         void onLogoutClicked();
+
+        void onItemClicked(int position, Instructor instructor);
+        void onBookingAppointmentClicked(int position, Instructor instructor);
     }
 }

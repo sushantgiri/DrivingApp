@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+
 public class Instructor implements Parcelable {
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -23,6 +25,7 @@ public class Instructor implements Parcelable {
     private String profileUrl;
 
     private String instructorAvailability;
+    private ArrayList<Appointments> appointmentList;
 
     public Instructor(){
 
@@ -34,6 +37,7 @@ public class Instructor implements Parcelable {
         this.drivingExperienceDetails = in.readString();
         this.profileUrl = in.readString();
         this.instructorAvailability = in.readString();
+        this.appointmentList = in.readArrayList(Appointments.class.getClassLoader());
     }
 
     public String getInstructorAvailability() {
@@ -89,5 +93,8 @@ public class Instructor implements Parcelable {
         dest.writeString(this.drivingExperienceDetails);
         dest.writeString(this.profileUrl);
         dest.writeString(this.instructorAvailability);
+        dest.writeArray(this.appointmentList);
     }
+
+
 }

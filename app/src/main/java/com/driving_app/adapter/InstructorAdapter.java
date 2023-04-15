@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.driving_app.R;
+import com.driving_app.helpers.CircleImageView;
 import com.driving_app.model.Instructor;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -61,6 +63,11 @@ public class InstructorAdapter extends FirestoreRecyclerAdapter<Instructor, Inst
                     .centerCrop()
                     .into(holder.profileURL);
         }
+        holder.rootView.setOnClickListener(v -> {
+            if(instructorAdapterListener != null){
+                instructorAdapterListener.onItemClicked(position, model);
+            }
+        });
 
     }
 
@@ -74,12 +81,13 @@ public class InstructorAdapter extends FirestoreRecyclerAdapter<Instructor, Inst
 
     public static class InstructorViewHolder extends RecyclerView.ViewHolder{
 
-        private final ImageView profileURL;
+        private final CircleImageView profileURL;
         private final TextView instructorName;
         private final TextView instructorDescription;
         private final TextView instructorRating;
         private final ImageView instructorAvailable;
         private final Button bookAppointmentButton;
+        private final LinearLayout rootView;
         public InstructorViewHolder(@NonNull View itemView) {
             super(itemView);
             profileURL = itemView.findViewById(R.id.profileURL);
@@ -88,11 +96,13 @@ public class InstructorAdapter extends FirestoreRecyclerAdapter<Instructor, Inst
             instructorRating =itemView.findViewById(R.id.rating);
             instructorAvailable = itemView.findViewById(R.id.instructorAvailable);
             bookAppointmentButton = itemView.findViewById(R.id.bookAppointment);
+            rootView =  itemView.findViewById(R.id.rootView);
         }
     }
 
     public interface InstructorAdapterListener{
         void onAppointmentClicked(int position, Instructor instructor);
+        void onItemClicked(int position, Instructor instructor);
     }
 
 
