@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity  {
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
     private static final int DRIVER_DETAIL_REQUEST_CODE = 9001;
+    private static final int APPOINTMENT_ADDED_REQUEST_CODE = 9002;
     private Instructor selectedInstructor = null;
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity  {
         if(resultCode == RESULT_OK){
             if(requestCode == DRIVER_DETAIL_REQUEST_CODE){
                 startNewAppointment(selectedInstructor);
+            }else if(requestCode == APPOINTMENT_ADDED_REQUEST_CODE){
+                bottomNavigationView.setSelectedItemId(R.id.calendar);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity  {
     private void startNewAppointment(Instructor instructor){
         Intent appointmentIntent = new Intent(this, NewAppointmentActivity.class);
         appointmentIntent.putExtra(NewAppointmentActivity.NEW_APPOINTMENT_KEY, instructor);
-        startActivity(appointmentIntent);
+        startActivityForResult(appointmentIntent, APPOINTMENT_ADDED_REQUEST_CODE);
     }
 
     @Override

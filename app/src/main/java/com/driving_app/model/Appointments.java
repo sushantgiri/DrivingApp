@@ -11,6 +11,8 @@ public class Appointments implements Parcelable {
     private String userName;
     private String userEmail;
     private String timeStamp;
+    private String deviceId;
+    private boolean isBookingAccepted = false;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Appointments createFromParcel(Parcel in) {
@@ -31,6 +33,8 @@ public class Appointments implements Parcelable {
         this.userName = in.readString();
         this.userEmail = in.readString();
         this.timeStamp = in.readString();
+        this.deviceId = in.readString();
+        this.isBookingAccepted = in.readInt() == 1;
 
     }
 
@@ -45,6 +49,7 @@ public class Appointments implements Parcelable {
         dest.writeString(this.userName);
         dest.writeString(this.userEmail);
         dest.writeString(this.timeStamp);
+        dest.writeInt(this.isBookingAccepted ? 1 : 0);
     }
 
     public String getUserId() {
@@ -77,5 +82,21 @@ public class Appointments implements Parcelable {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public boolean isBookingAccepted() {
+        return isBookingAccepted;
+    }
+
+    public void setBookingAccepted(boolean bookingAccepted) {
+        isBookingAccepted = bookingAccepted;
     }
 }

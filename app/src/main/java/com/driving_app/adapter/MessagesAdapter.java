@@ -9,33 +9,46 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.driving_app.R;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.driving_app.model.MessagesModel;
 
-public class MessagesAdapter extends FirestoreRecyclerAdapter<MessagesModel, MessagesAdapter.MessagesViewHolder> {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder> {
 
 
-    /**
-     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-    public MessagesAdapter(@NonNull FirestoreRecyclerOptions<MessagesModel> options) {
-        super(options);
-    }
+   private ArrayList<Object> messages;
 
-    @Override
-    protected void onBindViewHolder(@NonNull MessagesViewHolder holder, int position, @NonNull MessagesModel model) {
-        holder.title.setText(model.getTitle());
-        holder.message.setText(model.getMessage());
-    }
+   public MessagesAdapter(){
+       messages = new ArrayList<>();
+   }
+
+   public void addAll(ArrayList<Object> messages){
+       this.messages =    messages;
+       notifyDataSetChanged();
+   }
+
+
 
     @NonNull
     @Override
     public MessagesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message,parent,false);
         return new MessagesViewHolder(rootView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MessagesViewHolder holder, int position) {
+        HashMap<String, String> hashMap = (HashMap<String, String>) messages.get(position);
+        MessagesModel messagesModel = (MessagesModel) messages.get(position);
+        holder.title.setText(hashMap.get("title"));
+        holder.message.setText(hashMap.get("message"));
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return messages.size();
     }
 
     public class MessagesViewHolder extends RecyclerView.ViewHolder{

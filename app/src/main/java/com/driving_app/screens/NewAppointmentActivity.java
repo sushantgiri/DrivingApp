@@ -20,6 +20,8 @@ import com.driving_app.model.Instructor;
 import com.driving_app.utils.BookingUtils;
 import com.driving_app.utils.DateUtils;
 import com.driving_app.utils.MessageUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -105,7 +107,17 @@ public class NewAppointmentActivity extends AppCompatActivity implements View.On
         }else if(view == timeButton){
             openTimePicker();
         }else if(view == addAppointmentButton){
-            addAppointment();
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        // Get new FCM registration token
+                        addAppointment(task.getResult());
+
+                    });
+
         }else if(view == amText){
             setAM();
         }else if(view == pmText){
@@ -113,17 +125,15 @@ public class NewAppointmentActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void addAppointment(){
+    private void addAppointment(String deviceToken){
         progressDialog.show();
         String selectedDate= DateUtils.getDate(selectedCalendarDay, selectedCalendarTime);
-        Appointments appointments = BookingUtils.createAppointments(selectedDate);
+        Appointments appointments = BookingUtils.createAppointments(selectedDate,deviceToken);
         if(appointmentsArrayList != null){
             Appointments availableAppointments = BookingUtils.isBookingAvailable(appointmentsArrayList);
             appointmentsArrayList.remove(availableAppointments);
-//            appointmentsArrayList.add(appointments);
         }else{
             appointmentsArrayList = new ArrayList<>();
-//            appointmentsArrayList.add(appointments);
         }
 
         if(BookingUtils.containsDate(selectedDate, appointmentsArrayList)){
@@ -135,6 +145,15 @@ public class NewAppointmentActivity extends AppCompatActivity implements View.On
                 progressDialog.cancel();
                 if(task.isSuccessful()){
                     MessageUtils.showMessage(this, "Appointment has been added");
+                    BookingUtils.initiateMessaging(instructor.getName(), FirebaseAuth.getInstance().getCurrentUser().getUid(), deviceToken,selectedDate, task1 -> {
+                          if(!task1.isSuccessful()){
+                              MessageUtils.showMessage(NewAppointmentActivity.this, task1.getException().getMessage());
+                          }else{
+                              setResult(RESULT_OK);
+                              finish();
+                          }
+                    });
+
                 }else{
                     MessageUtils.showMessage(NewAppointmentActivity.this, task.getException().getMessage());
 

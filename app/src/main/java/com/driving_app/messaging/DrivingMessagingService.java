@@ -58,20 +58,6 @@ public class DrivingMessagingService
         }
     }
 
-    // Method to get the custom Design for the display of
-    // notification.
-//    private RemoteViews getCustomDesign(String title,
-//                                        String message)
-//    {
-//        RemoteViews remoteViews = new RemoteViews(
-//                getApplicationContext().getPackageName(),
-//                R.layout.item_message);
-//        remoteViews.setTextViewText(R.id.title, title);
-//        remoteViews.setTextViewText(R.id.message, message);
-//        remoteViews.setImageViewResource(R.id.icon,
-//                R.drawable.gfg);
-//        return remoteViews;
-//    }
 
     // Method to display the notifications
     public void showNotification(String title,
@@ -91,7 +77,7 @@ public class DrivingMessagingService
         PendingIntent pendingIntent
                 = PendingIntent.getActivity(
                 this, 0, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
 
         // Create a Builder object using NotificationCompat
         // class. This will allow control over all the flags
