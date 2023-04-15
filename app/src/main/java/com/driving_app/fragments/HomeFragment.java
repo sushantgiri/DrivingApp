@@ -1,9 +1,6 @@
 package com.driving_app.fragments;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,22 +18,11 @@ import com.driving_app.R;
 import com.driving_app.adapter.InstructorAdapter;
 import com.driving_app.helpers.WrapContentLinearLayoutManager;
 import com.driving_app.model.Instructor;
-import com.driving_app.screens.DriverDetailActivity;
-import com.driving_app.screens.InstructorActivity;
-import com.driving_app.screens.NewAppointmentActivity;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class HomeFragment extends Fragment implements View.OnClickListener, InstructorAdapter.InstructorAdapterListener {
 
@@ -50,7 +35,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Inst
 
     private View rootView;
     private RecyclerView instructorRecyclerView;
-    private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore database;
@@ -68,7 +52,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Inst
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        databaseReference= FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser  = firebaseAuth.getCurrentUser();
         database = FirebaseFirestore.getInstance();

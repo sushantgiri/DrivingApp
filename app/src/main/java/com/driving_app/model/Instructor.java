@@ -48,6 +48,14 @@ public class Instructor implements Parcelable {
         this.instructorAvailability = instructorAvailability;
     }
 
+    public ArrayList<Appointments> getAppointmentList() {
+        return appointmentList;
+    }
+
+    public void setAppointmentList(ArrayList<Appointments> appointmentList) {
+        this.appointmentList = appointmentList;
+    }
+
     public String getName() {
         return name;
     }
@@ -93,7 +101,7 @@ public class Instructor implements Parcelable {
         dest.writeString(this.drivingExperienceDetails);
         dest.writeString(this.profileUrl);
         dest.writeString(this.instructorAvailability);
-        dest.writeArray(this.appointmentList);
+        dest.writeList(this.appointmentList);
     }
 
 

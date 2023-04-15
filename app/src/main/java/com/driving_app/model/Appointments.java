@@ -9,6 +9,7 @@ public class Appointments implements Parcelable {
 
     private String userId;
     private String userName;
+    private String userEmail;
     private String timeStamp;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -28,7 +29,9 @@ public class Appointments implements Parcelable {
     public Appointments(Parcel in){
         this.userId = in.readString();
         this.userName = in.readString();
+        this.userEmail = in.readString();
         this.timeStamp = in.readString();
+
     }
 
     @Override
@@ -40,6 +43,39 @@ public class Appointments implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(this.userId);
         dest.writeString(this.userName);
+        dest.writeString(this.userEmail);
         dest.writeString(this.timeStamp);
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }

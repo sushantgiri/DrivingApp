@@ -9,19 +9,22 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.driving_app.R;
+import com.driving_app.model.Appointments;
+import com.driving_app.model.Instructor;
+import com.driving_app.utils.BookingUtils;
 import com.driving_app.utils.DateUtils;
-import com.google.firebase.database.FirebaseDatabase;
+import com.driving_app.utils.MessageUtils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
-public class NewAppointmentActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewAppointmentActivity extends AppCompatActivity implements View.OnClickListener, CalendarView.OnDateChangeListener {
 
     private ImageView backIcon;
     private CalendarView calendarView;
@@ -31,11 +34,25 @@ public class NewAppointmentActivity extends AppCompatActivity implements View.On
     public static final String NEW_APPOINTMENT_KEY = "NEW_APPOINTMENT_KEY";
 
     private ProgressDialog progressDialog;
+    private Instructor instructor;
+    private Calendar selectedCalendarDay = null;
+    private Calendar selectedCalendarTime = null;
+    private ArrayList<Appointments> appointmentsArrayList;
+//    private int selectedHourOfDay, selectedMinute = 0;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_appointment);
+
+        instructor = getIntent().getParcelableExtra(NEW_APPOINTMENT_KEY);
+        if(instructor == null){
+            finish();
+            return;
+        }
+        appointmentsArrayList = instructor.getAppointmentList();
+        selectedCalendarDay = Calendar.getInstance();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
@@ -57,9 +74,11 @@ public class NewAppointmentActivity extends AppCompatActivity implements View.On
 
         calendarView = findViewById(R.id.calendarView);
         calendarView.setMinDate(DateUtils.getCurrentDate());
-        calendarView.setDate(new Date().getTime());
+
+        calendarView.setDate(DateUtils.getCurrentDate());
+        calendarView.setOnDateChangeListener(this);
         Calendar now = Calendar.getInstance();
-        timeButton.setText(""+now.get(Calendar.HOUR)+":"+now.get(Calendar.MINUTE));
+        timeButton.setText(DateUtils.getCurrentTime());
 
         if(now.get(Calendar.AM_PM) == Calendar.AM){
             setAM();
@@ -96,9 +115,39 @@ public class NewAppointmentActivity extends AppCompatActivity implements View.On
 
     private void addAppointment(){
         progressDialog.show();
+        String selectedDate= DateUtils.getDate(selectedCalendarDay, selectedCalendarTime);
+        Appointments appointments = BookingUtils.createAppointments(selectedDate);
+        if(appointmentsArrayList != null){
+            Appointments availableAppointments = BookingUtils.isBookingAvailable(appointmentsArrayList);
+            appointmentsArrayList.remove(availableAppointments);
+//            appointmentsArrayList.add(appointments);
+        }else{
+            appointmentsArrayList = new ArrayList<>();
+//            appointmentsArrayList.add(appointments);
+        }
+
+        if(BookingUtils.containsDate(selectedDate, appointmentsArrayList)){
+            MessageUtils.showMessage(this, "Please select different time. Instructor seems busy at this moment.");
+        }else{
+            appointmentsArrayList.add(appointments);
+            instructor.setAppointmentList(appointmentsArrayList);
+            BookingUtils.bookUser(instructor, task -> {
+                progressDialog.cancel();
+                if(task.isSuccessful()){
+                    MessageUtils.showMessage(this, "Appointment has been added");
+                }else{
+                    MessageUtils.showMessage(NewAppointmentActivity.this, task.getException().getMessage());
+
+                }
+            });
+        }
+
+
 
 
     }
+
+
 
     private void openTimePicker(){
         // Get Current Time
@@ -110,17 +159,23 @@ public class NewAppointmentActivity extends AppCompatActivity implements View.On
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 (view, hourOfDay, minute) -> {
                             timeButton.setText(hourOfDay + ":" + minute);
-                                    Calendar datetime = Calendar.getInstance();
-                                    datetime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                    datetime.set(Calendar.MINUTE, minute);
-
-                                    if (datetime.get(Calendar.AM_PM) == Calendar.AM)
+//                            selectedTime = DateUtils.getCalendarDate(hourOfDay,minute);
+                                    selectedCalendarTime=DateUtils.getCalendar(hourOfDay,minute);
+                                    if (selectedCalendarTime.get(Calendar.AM_PM) == Calendar.AM)
                                         setAM();
-                                    else if (datetime.get(Calendar.AM_PM) == Calendar.PM)
+                                    else if (selectedCalendarTime.get(Calendar.AM_PM) == Calendar.PM)
                                        setPM();
 
 
                 }, mHour, mMinute, false);
         timePickerDialog.show();
+    }
+
+    @Override
+    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+        selectedCalendarDay = DateUtils.getCalendarFromSelectedDay(year, month, dayOfMonth);
+
+
+//        selectedDate = DateUtils.getCalendarFromSelectedDay(year, month)
     }
 }
