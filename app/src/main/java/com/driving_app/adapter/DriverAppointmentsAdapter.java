@@ -58,6 +58,10 @@ public class DriverAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView
         Appointments appointments = driverAppointments.get(position);
         if(holder.getItemViewType() == TYPE_PENDING){
             PendingAppointmentViewHolder viewHolder = (PendingAppointmentViewHolder) holder;
+            viewHolder.userDetails.setText(
+                    "Username: " + appointments.getUserName() + "\n" +
+                    "Email: " + appointments.getUserEmail() + "\n "
+                    );
             viewHolder.acceptButton.setOnClickListener(v -> {
                 if(upComingAppointmentListener != null){
                     upComingAppointmentListener.onBookingAccepted(appointments);

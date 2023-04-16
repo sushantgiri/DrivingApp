@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
-                android:text="KP1@" />
+                android:text="kpsir1217@gmail.com" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:text="KP1@" />
+                android:text="KP1217@" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
