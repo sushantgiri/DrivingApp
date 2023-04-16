@@ -1,8 +1,8 @@
 package com.driving_app.utils;
 
-import com.driving_app.model.MessagesModel;
 import com.driving_app.model.Appointments;
 import com.driving_app.model.Instructor;
+import com.driving_app.model.MessagesModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -119,6 +119,112 @@ public final class BookingUtils {
                     }
                 });
 
+    }
+
+    public static void fetchAppointments(String driverName, AppointmentFetchListener listener, int requestCode){
+        FirebaseFirestore.getInstance().collection("instructorList")
+                .document(driverName)
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+//                        ArrayList<Appointments> appointments = (ArrayList<Appointments>) task.getResult().get("appointmentList");
+                        ArrayList<HashMap<String, String>> appointments = (ArrayList<HashMap<String, String>>) task.getResult().get("appointmentList");
+//                        HashMap<String, Appointments> hashMap = (HashMap<String, Appointments>) task.getResult().get("appointmentList");
+//                        ArrayList<Appointments> appointments = new ArrayList<>();
+//                        appointments.addAll(hashMap.values());
+
+
+                        ArrayList<Appointments> upcomingAppointments = new ArrayList<>();
+                        ArrayList<Appointments> pendingAppointments = new ArrayList<>();
+                        if(appointments != null){
+                            for (int i = 0; i < appointments.size(); i++) {
+
+                                Appointments info = new Appointments();
+                                info.setUserId(appointments.get(i).get("userId"));
+                                info.setDeviceId(appointments.get(i).get("deviceId"));
+                                info.setUserEmail(appointments.get(i).get("userEmail"));
+                                info.setUserName(appointments.get(i).get("userName"));
+                                info.setTimeStamp(appointments.get(i).get("timeStamp"));
+                                info.setBookingAccepted(appointments.get(i).get("bookingAccepted"));
+                                if(info.isBookingAccepted().equals("true")){
+                                    upcomingAppointments.add(info);
+                                }else{
+                                    pendingAppointments.add(info);
+
+                                }
+                            }
+
+
+                        }else{
+                            listener.onFailed("Appointment is null");
+                        }
+                        if(requestCode == 1){
+                            listener.onPendingAppointmentFetched(pendingAppointments);
+                        }else{
+                            listener.onUpcomingAppointmentFetched(upcomingAppointments);
+                        }
+
+
+                    }else{
+                        listener.onFailed(task.getException().getMessage());
+                    }
+                });
+    }
+
+    public static void acceptBooking(Appointments appointments, String instructorName, BookingStatusListener bookingStatusListener){
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+
+        firebaseFirestore.collection("instructorList")
+                .document(instructorName)
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+//                        ArrayList<Appointments> localAppointments = (ArrayList<Appointments>) task.getResult().get("appointmentList");
+
+                        HashMap<String, Appointments> hashMap = (HashMap<String, Appointments>) task.getResult().get("appointmentList");
+                        ArrayList<Appointments> localAppointments = new ArrayList<>();
+                        localAppointments.addAll(hashMap.values());
+
+                        if(localAppointments != null){
+                            for(Appointments localAppointment: localAppointments){
+                                if(localAppointment.getUserId().equals(appointments.getUserId())){
+                                    localAppointment.setBookingAccepted("true");
+                                }
+                            }
+
+                            firebaseFirestore.collection("instructorList")
+                                    .document(instructorName)
+                                    .update("appointmentList",localAppointments)
+                                    .addOnCompleteListener(task1 -> {
+                                        if(task1.isSuccessful()){
+                                            bookingStatusListener.onBookingSuccess();
+                                        }else{
+                                            bookingStatusListener.onBookingFailed(task1.getException().getMessage());
+                                        }
+                                    });
+
+                        }else{
+                            bookingStatusListener.onBookingFailed("Local Appointments not found.");
+                        }
+
+
+                    }else{
+                        bookingStatusListener.onBookingFailed(task.getException().getMessage());
+                    }
+                });
+    }
+
+    public interface BookingStatusListener {
+        void onBookingSuccess();
+        void onBookingFailed(String message);
+    }
+
+
+
+    public interface AppointmentFetchListener{
+        void onFailed(String message);
+        void onUpcomingAppointmentFetched(ArrayList<Appointments> appointments);
+
+        void onPendingAppointmentFetched(ArrayList<Appointments> appointments);
     }
 
 

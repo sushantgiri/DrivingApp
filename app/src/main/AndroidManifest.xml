@@ -90,6 +90,8 @@
             android:screenOrientation="portrait" />
 
 
+
+
         <service
             android:name=".messaging.DrivingMessagingService"
             android:exported="false">

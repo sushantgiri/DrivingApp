@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithEmail:success");
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        updateUI(user);
+                        updateUI(user, password);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -134,7 +134,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // [END sign_in_with_email]
     }
 
-    private void updateUI(FirebaseUser user) {
+    private void updateUI(FirebaseUser user,String password) {
+        if(user.getEmail().equals("kpsir1217@gmail.com") && password.equals("KP1217@")){
+            Intent mainIntent=new Intent(this, DrivingActivity.class);
+            startActivity(mainIntent);
+        }else{
+            Intent mainIntent=new Intent(this, MainActivity.class);
+            startActivity(mainIntent);
+        }
         Intent mainIntent=new Intent(this, MainActivity.class);
         startActivity(mainIntent);
         finish();
@@ -147,10 +154,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String email = userNameText.getText().toString();
             String password  = passwordText.getText().toString();
 
-            if(email.equals("KP1@") && password.equals("KP1@")){
-                startActivity(new Intent(this, DrivingActivity.class));
-                finish();
-            }
+
 
             if(validateFields(email, password)){
                 signIn(email,password);
@@ -242,7 +246,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             email = account.getEmail();
             // you can store user data to SharedPreference
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-            firebaseAuthWithGoogle(credential);
+            firebaseAuthWithGoogle(credential,email);
         }else{
             // Google Sign In failed, update UI appropriately
             Log.e(TAG, "Login Unsuccessful. "+result);
@@ -250,14 +254,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void firebaseAuthWithGoogle(AuthCredential credential){
+    private void firebaseAuthWithGoogle(AuthCredential credential, String email){
 
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
                     if(task.isSuccessful()){
                         MessageUtils.showMessage(LoginActivity.this, "Login successful");
-                        startMain();
+                        if(email.equals("kpsir1217@gmail.com")){
+                            Intent mainIntent=new Intent(this, DrivingActivity.class);
+                            startActivity(mainIntent);
+                        }else{
+                            startMain();
+                        }
                     }else{
                         MessageUtils.showMessage(LoginActivity.this, task.getException().getMessage());
                     }

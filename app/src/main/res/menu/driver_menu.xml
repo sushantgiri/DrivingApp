@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeMenu"
+        android:id="@+id/pendingAppointments"
         android:icon="@drawable/home"
         android:title="Pending Appointments" />
 
@@ -12,7 +12,7 @@
 <!--        android:title="Nearby" />-->
 
     <item
-        android:id="@+id/calendar"
+        android:id="@+id/upcomingAppointments"
         android:icon="@drawable/calendar"
         android:title="Upcoming Appointments" />
 

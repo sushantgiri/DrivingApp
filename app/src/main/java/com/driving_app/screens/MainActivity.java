@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity  {
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
         int id = item.getItemId();
-        if(id == R.id.homeMenu){
+        if(id == R.id.homeIcon){
             HomeFragment homeFragment = new HomeFragment();
             homeFragment.setHomeListener(new HomeFragment.HomeListener() {
                 @Override
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity  {
 
         }
 
-        else if(id == R.id.calendar){
+        else if(id == R.id.messageIcon){
             selectedFragment = new AppointmentsFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, selectedFragment).commitAllowingStateLoss();
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity  {
                 startNewAppointment(selectedInstructor);
             }else if(requestCode == APPOINTMENT_ADDED_REQUEST_CODE){
                 if(bottomNavigationView != null){
-                    bottomNavigationView.setSelectedItemId(R.id.calendar);
+                    bottomNavigationView.setSelectedItemId(R.id.upcomingAppointments);
                 }
             }
         }
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity  {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
-        bottomNavigationView.setSelectedItemId(R.id.homeMenu);
+        bottomNavigationView.setSelectedItemId(R.id.homeIcon);
 
     }
 

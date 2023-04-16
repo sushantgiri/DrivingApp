@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.driving_app.R;
 import com.driving_app.helpers.PreferenceHelper;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -40,7 +42,25 @@ public class SplashActivity extends AppCompatActivity {
     private void launchActivity(){
         Intent decidingIntent;
         if(preferenceHelper.isLoggedIn()){
-            decidingIntent = new Intent(this, MainActivity.class);
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            if(firebaseUser != null){
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                if(email != null){
+                    if(email.equals("kpsir1217@gmail.com")){
+                        decidingIntent = new Intent(this, DrivingActivity.class);
+                    }else{
+                        decidingIntent = new Intent(this, MainActivity.class);
+                    }
+                }else{
+                    preferenceHelper.setIsLoggedIn(false);
+                    decidingIntent = new Intent(this,LoginActivity.class);
+                }
+            }else{
+                preferenceHelper.setIsLoggedIn(false);
+                decidingIntent = new Intent(this,LoginActivity.class);
+
+            }
+
         }else{
             decidingIntent = new Intent(this,LoginActivity.class);
         }

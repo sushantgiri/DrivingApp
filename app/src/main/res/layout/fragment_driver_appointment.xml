@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:padding="18dp"
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/pendingAppointments"
+        android:id="@+id/appointmentType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pending Appointments"
@@ -17,7 +16,18 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/driverRV"
+        android:layout_below="@+id/appointmentType"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/noAppointment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="21dp"
+        android:textColor="#000"
+        android:text="No appointments available."
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

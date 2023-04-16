@@ -5,14 +5,22 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Appointments implements Parcelable {
 
+    @SerializedName("userId")
     private String userId;
+    @SerializedName("userName")
     private String userName;
+    @SerializedName("userEmail")
     private String userEmail;
+    @SerializedName("timeStamp")
     private String timeStamp;
+    @SerializedName("deviceId")
     private String deviceId;
-    private boolean isBookingAccepted = false;
+    @SerializedName("isBookingAccepted")
+    private String isBookingAccepted = "false";
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Appointments createFromParcel(Parcel in) {
@@ -34,7 +42,7 @@ public class Appointments implements Parcelable {
         this.userEmail = in.readString();
         this.timeStamp = in.readString();
         this.deviceId = in.readString();
-        this.isBookingAccepted = in.readInt() == 1;
+        this.isBookingAccepted = in.readString();
 
     }
 
@@ -49,7 +57,7 @@ public class Appointments implements Parcelable {
         dest.writeString(this.userName);
         dest.writeString(this.userEmail);
         dest.writeString(this.timeStamp);
-        dest.writeInt(this.isBookingAccepted ? 1 : 0);
+        dest.writeString(this.isBookingAccepted);
     }
 
     public String getUserId() {
@@ -92,11 +100,11 @@ public class Appointments implements Parcelable {
         this.deviceId = deviceId;
     }
 
-    public boolean isBookingAccepted() {
+    public String isBookingAccepted() {
         return isBookingAccepted;
     }
 
-    public void setBookingAccepted(boolean bookingAccepted) {
+    public void setBookingAccepted(String bookingAccepted) {
         isBookingAccepted = bookingAccepted;
     }
 }
