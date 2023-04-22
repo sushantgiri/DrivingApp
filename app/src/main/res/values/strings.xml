@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Driving App</string>
+    <string name="app_name">D-Driving</string>
     <string name="sign_up"><u>SignUp</u></string>
     <string name="facebook_app_id">214268554165523</string>
     <string name="fb_login_protocol_scheme">fb214268554165523</string>

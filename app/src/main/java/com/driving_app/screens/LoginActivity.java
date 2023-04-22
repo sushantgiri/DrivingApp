@@ -135,15 +135,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateUI(FirebaseUser user,String password) {
-        if(user.getEmail().equals("kpsir1217@gmail.com") && password.equals("KP1217@")){
+        if(user.getEmail().equals("kpsir1217@gmail.com")){
             Intent mainIntent=new Intent(this, DrivingActivity.class);
             startActivity(mainIntent);
         }else{
             Intent mainIntent=new Intent(this, MainActivity.class);
             startActivity(mainIntent);
         }
-        Intent mainIntent=new Intent(this, MainActivity.class);
-        startActivity(mainIntent);
         finish();
     }
 
@@ -153,8 +151,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(view == loginButton){
             String email = userNameText.getText().toString();
             String password  = passwordText.getText().toString();
-
-
 
             if(validateFields(email, password)){
                 signIn(email,password);
