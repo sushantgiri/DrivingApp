@@ -23,7 +23,6 @@
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Username"
             android:hint="Username" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,7 +36,6 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Password"
             android:hint="Password" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,13 +106,13 @@
             android:layout_gravity="center"
              />
 
-        <com.facebook.login.widget.LoginButton
-            android:layout_width="match_parent"
-            android:paddingTop="14dp"
-            android:layout_marginTop="20dp"
-            android:paddingBottom="14dp"
-            android:layout_height="wrap_content"
-            />
+<!--        <com.facebook.login.widget.LoginButton-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:paddingTop="14dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:paddingBottom="14dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            />-->
 
 
 

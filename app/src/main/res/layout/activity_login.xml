@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
-                android:text="kpsir1217@gmail.com" />
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:text="KP1217@" />
+                 />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -162,13 +162,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/facebookButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp" />
+<!--            <com.facebook.login.widget.LoginButton-->
+<!--                android:id="@+id/facebookButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:paddingTop="14dp"-->
+<!--                android:paddingBottom="14dp" />-->
 
 
         </LinearLayout>

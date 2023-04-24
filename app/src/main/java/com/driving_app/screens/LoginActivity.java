@@ -225,6 +225,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             decidingIntent = new Intent(this, InstructorActivity.class);
         }
        startActivity(decidingIntent);
+        finish();
     }
 
     @Override
@@ -260,6 +261,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if(email.equals("kpsir1217@gmail.com")){
                             Intent mainIntent=new Intent(this, DrivingActivity.class);
                             startActivity(mainIntent);
+                            finish();
                         }else{
                             startMain();
                         }
