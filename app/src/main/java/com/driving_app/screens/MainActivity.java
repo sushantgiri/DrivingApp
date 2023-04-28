@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Fragment selectedFragment = null;
     private AdView mAdView;
     private ImageView hamMenu;
-    private DrawerLayout drawerLayout;
+//    private DrawerLayout drawerLayout;
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
         int id = item.getItemId();
         if(id == R.id.homeIcon){
@@ -112,13 +112,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        hamMenu = findViewById(R.id.hamMenu);
-        hamMenu.setOnClickListener(this);
+//        drawerLayout = findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+//        hamMenu = findViewById(R.id.hamMenu);
+//        hamMenu.setOnClickListener(this);
         MobileAds.initialize(this, initializationStatus -> {
 
         });
